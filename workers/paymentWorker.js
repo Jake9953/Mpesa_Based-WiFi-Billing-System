@@ -6,6 +6,20 @@ const Redis = require('ioredis');
 
 const connection = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
 
+// Helper function to extract M-Pesa receipt number from callback data
+function extractMpesaReceipt(callbackData) {
+  return callbackData?.CallbackMetadata?.Item?.find(
+    (item) => item.Name === 'MpesaReceiptNumber'
+  )?.Value;
+}
+
+// Helper function to extract payment amount from callback data
+function extractPaymentAmount(callbackData) {
+  return callbackData?.CallbackMetadata?.Item?.find(
+    (item) => item.Name === 'Amount'
+  )?.Value;
+}
+
 const paymentWorker = new Worker('mpesa-payments', async job => {
   const { checkoutId, callbackData } = job.data;
   try {
@@ -45,7 +59,7 @@ const paymentWorker = new Worker('mpesa-payments', async job => {
         return;
       }
 
-      const mpesaRef = callbackData?.CallbackMetadata?.Item?.find((item) => item.Name === 'MpesaReceiptNumber')?.Value;
+      const mpesaRef = extractMpesaReceipt(callbackData);
       
       // Update license payment status
       await prisma.licensePayment.update({
@@ -88,8 +102,8 @@ const paymentWorker = new Worker('mpesa-payments', async job => {
       return;
     }
 
-    const amount = callbackData?.CallbackMetadata?.Item?.find((item) => item.Name === 'Amount')?.Value;
-    const mpesaRef = callbackData?.CallbackMetadata?.Item?.find((item) => item.Name === 'MpesaReceiptNumber')?.Value;
+    const amount = extractPaymentAmount(callbackData);
+    const mpesaRef = extractMpesaReceipt(callbackData);
     const mac = payment.macAddress;
     let time = '1Hr';
     if (Number(amount) === 30) time = '24Hrs';

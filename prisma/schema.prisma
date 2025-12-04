@@ -17,69 +17,69 @@ model Admin {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  phone         String   @unique
-  macAddress    String
-  status        String
-  currentPackage String? 
-  expiresAt     DateTime?
-  totalSpent    Int      @default(0)
-  sessionsCount Int      @default(0)
-  lastSeen      DateTime?
-  payments      Payment[]
+  id             Int       @id @default(autoincrement())
+  phone          String    @unique
+  macAddress     String
+  status         String
+  currentPackage String?
+  expiresAt      DateTime?
+  totalSpent     Int       @default(0)
+  sessionsCount  Int       @default(0)
+  lastSeen       DateTime?
+  payments       Payment[]
 }
 
 model Payment {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   phone         String
   amount        Int
-  transactionId String   @unique
+  transactionId String    @unique
   macAddress    String
   status        String
-  timePurchased DateTime @default(now())
-  mpesaRef      String?  @unique
+  timePurchased DateTime  @default(now())
+  mpesaRef      String?   @unique
   expiresAt     DateTime?
   userId        Int?
-  user          User?    @relation(fields: [userId], references: [id])
+  user          User?     @relation(fields: [userId], references: [id])
 
   @@index([mpesaRef])
   @@index([transactionId])
 }
 
 model ClientLicense {
-  id              Int      @id @default(autoincrement())
-  clientName      String
-  licenseKey      String   @unique
-  status          String   // "active", "expired", "suspended"
-  monthlyAmount   Int      @default(2000) // Monthly fee in KES
-  userLimit       Int      @default(300)  // Maximum users allowed
-  currentUserCount Int     @default(0)    // Current active users
-  issueDate       DateTime @default(now())
-  expiresAt       DateTime
-  autoRenew       Boolean  @default(false)
-  contactPhone    String?
-  contactEmail    String?
-  notes           String?  @db.Text
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  licensePayments LicensePayment[]
+  id               Int              @id @default(autoincrement())
+  clientName       String
+  licenseKey       String           @unique
+  status           String // "active", "expired", "suspended"
+  monthlyAmount    Int              @default(2000) // Monthly fee in KES
+  userLimit        Int              @default(300) // Maximum users allowed
+  currentUserCount Int              @default(0) // Current active users
+  issueDate        DateTime         @default(now())
+  expiresAt        DateTime
+  autoRenew        Boolean          @default(false)
+  contactPhone     String?
+  contactEmail     String?
+  notes            String?          @db.Text
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  licensePayments  LicensePayment[]
 
   @@index([status])
   @@index([expiresAt])
 }
 
 model LicensePayment {
-  id            Int      @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   licenseId     Int
   license       ClientLicense @relation(fields: [licenseId], references: [id])
   amount        Int
-  transactionId String   @unique
-  mpesaRef      String?  @unique
-  status        String   // "pending", "completed", "failed"
-  paymentDate   DateTime @default(now())
+  transactionId String        @unique
+  mpesaRef      String?       @unique
+  status        String // "pending", "completed", "failed"
+  paymentDate   DateTime      @default(now())
   periodStart   DateTime
   periodEnd     DateTime
-  createdAt     DateTime @default(now())
+  createdAt     DateTime      @default(now())
 
   @@index([licenseId])
   @@index([transactionId])

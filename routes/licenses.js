@@ -1,6 +1,7 @@
 const express = require("express");
 const prisma = require("../config/prismaClient");
 const { stkPush } = require("../config/mpesa");
+const authMiddleware = require("../middleware/authMiddleware");
 const crypto = require("crypto");
 
 const router = express.Router();
@@ -10,8 +11,8 @@ function generateLicenseKey() {
   return `LIC-${crypto.randomBytes(8).toString('hex').toUpperCase()}`;
 }
 
-// Create a new client license (Admin only - should add auth middleware)
-router.post("/licenses/create", async (req, res) => {
+// Create a new client license (Admin only)
+router.post("/licenses/create", authMiddleware, async (req, res) => {
   try {
     const { 
       clientName, 
@@ -271,11 +272,16 @@ router.post("/licenses/renew", async (req, res) => {
     }
 
     // Update payment with mpesaRef
-    if (mpesaResponse.CheckoutRequestID) {
-      await prisma.licensePayment.update({
-        where: { transactionId },
-        data: { mpesaRef: mpesaResponse.CheckoutRequestID }
-      });
+    try {
+      if (mpesaResponse.CheckoutRequestID) {
+        await prisma.licensePayment.update({
+          where: { transactionId },
+          data: { mpesaRef: mpesaResponse.CheckoutRequestID }
+        });
+      }
+    } catch (updateError) {
+      console.error("Failed to update license payment with mpesaRef:", updateError);
+      // Continue anyway - the callback can still process using transactionId
     }
 
     return res.json({
@@ -299,8 +305,8 @@ router.post("/licenses/renew", async (req, res) => {
   }
 });
 
-// List all licenses (Admin only - should add auth middleware)
-router.get("/licenses/list", async (req, res) => {
+// List all licenses (Admin only)
+router.get("/licenses/list", authMiddleware, async (req, res) => {
   try {
     const licenses = await prisma.clientLicense.findMany({
       include: {
@@ -344,8 +350,8 @@ router.get("/licenses/list", async (req, res) => {
   }
 });
 
-// Update license status (Admin only - should add auth middleware)
-router.put("/licenses/:licenseKey/status", async (req, res) => {
+// Update license status (Admin only)
+router.put("/licenses/:licenseKey/status", authMiddleware, async (req, res) => {
   try {
     const { licenseKey } = req.params;
     const { status } = req.body;
