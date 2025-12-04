@@ -18,7 +18,7 @@ router.post("/licenses/create", authMiddleware, async (req, res) => {
       clientName, 
       contactPhone, 
       contactEmail, 
-      monthlyAmount = 2000,
+      monthlyAmount = 3000,
       userLimit = 300,
       durationMonths = 1,
       notes 

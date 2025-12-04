@@ -218,7 +218,7 @@ const LicenseManagement = () => {
                   </div>
                   <div className="text-sm text-blue-700 dark:text-blue-300">
                     No license key configured. The system is running in demo mode with limited features.
-                    Contact the developer to purchase a license (2000 KES/month for up to 300 users).
+                    Contact the developer to purchase a license (3000 KES/month for up to 300 users).
                   </div>
                 </div>
               </div>
@@ -310,7 +310,7 @@ const LicenseManagement = () => {
           <CardHeader>
             <CardTitle>Renew License</CardTitle>
             <CardDescription>
-              Pay {licenseStatus.monthlyAmount || 2000} KES per month to extend your license
+              Pay {licenseStatus.monthlyAmount || 3000} KES per month to extend your license
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -333,10 +333,10 @@ const LicenseManagement = () => {
                 onChange={(e) => setRenewalMonths(Number(e.target.value))}
                 className="w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2"
               >
-                <option value={1}>1 Month - Ksh {licenseStatus.monthlyAmount || 2000}</option>
-                <option value={3}>3 Months - Ksh {(licenseStatus.monthlyAmount || 2000) * 3}</option>
-                <option value={6}>6 Months - Ksh {(licenseStatus.monthlyAmount || 2000) * 6}</option>
-                <option value={12}>12 Months - Ksh {(licenseStatus.monthlyAmount || 2000) * 12}</option>
+                <option value={1}>1 Month - Ksh {licenseStatus.monthlyAmount || 3000}</option>
+                <option value={3}>3 Months - Ksh {(licenseStatus.monthlyAmount || 3000) * 3}</option>
+                <option value={6}>6 Months - Ksh {(licenseStatus.monthlyAmount || 3000) * 6}</option>
+                <option value={12}>12 Months - Ksh {(licenseStatus.monthlyAmount || 3000) * 12}</option>
               </select>
             </div>
             <Button 
