@@ -10,6 +10,7 @@ const mpesaCallback = require("./routes/mpesaCallback");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const getMacRoute = require("./routes/getMac");
+const licenseRoutes = require("./routes/licenses");
 const { authLimiter, paymentLimiter, apiLimiter } = require("./middleware/rateLimit");
 
 const app = express();
@@ -65,6 +66,9 @@ app.use("/api", adminRoutes);
 
 // get MAC
 app.use("/api", getMacRoute);
+
+// License Routes
+app.use("/api", licenseRoutes);
 
 // ✅ Register Routes
 app.use("/api", mpesaRoutes);

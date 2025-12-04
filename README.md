@@ -1,4 +1,3 @@
-
 # Mpesa_Based-WiFi-Billing-System
 A WiFi billing system that allows users to purchase internet access via MPesa payments (STK Push). Ideal for cybercafés, small businesses, and public WiFi hotspots.
 
@@ -12,6 +11,8 @@ A WiFi billing system that allows users to purchase internet access via MPesa pa
 
 ✅ MAC Address Whitelisting – Secure WiFi access via MikroTik integration.
 
+✅ **Client Licensing System** – Monthly subscription model for system usage (2000 KES/month for up to 300 users).
+
 
 **🛠️ TECH STACK**
 
@@ -19,9 +20,11 @@ Frontend: React + Tailwind CSS
 
 Backend: Node.js + Express
 
-Database: MySQL
+Database: MySQL (with Prisma ORM)
 
 Router Integration: MikroTik (MAC Address Whitelisting)
+
+Payment Processing: BullMQ + Redis
 
 
 **🔧 INSTALLATION & SETUP**
@@ -87,7 +90,28 @@ npm run dev
 - Modularized authentication logic for maintainability and scalability.
 - Improved error handling and feedback throughout the stack.
 
+**Client Licensing System (2025)**
+- Implemented monthly subscription model for clients who install the system.
+- License management with user limits (default 300 users per license).
+- Automatic license expiration and renewal via M-Pesa.
+- Admin dashboard integration for license monitoring.
+- See [LICENSE_SYSTEM.md](LICENSE_SYSTEM.md) for detailed documentation.
+
 *I feel like this is the last part for this project, will nolonger be managing it.*
+
+
+## 💼 LICENSING MODEL
+
+This system uses a **dual licensing approach**:
+
+1. **Software License**: MIT License (open-source, free to use and modify)
+2. **Commercial Use License**: Clients who deploy this system commercially pay a monthly subscription fee:
+   - **2,000 KES per month** per installation
+   - Supports up to **300 concurrent users**
+   - Includes updates and basic support
+   - Renewable via M-Pesa
+
+For commercial deployment and licensing inquiries, contact the developer.
 
 
 *🤝 CONTRIBUTING*
@@ -98,6 +122,8 @@ Feel free to submit issues and pull requests to improve the system!
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+For commercial use licensing, see [LICENSE_SYSTEM.md](LICENSE_SYSTEM.md).
 
 
 

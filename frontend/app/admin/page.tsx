@@ -6,6 +6,7 @@ import {
   Users,
   CreditCard,
   Settings,
+  Key,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -17,6 +18,7 @@ import StatsCards from "@/components/admin/StatsCards"
 import UserManagement from "@/components/admin/UserManagement"
 import PaymentManagement from "@/components/admin/PaymentManagement"
 import SystemSettings from "@/components/admin/SystemSettings"
+import LicenseManagement from "@/components/admin/LicenseManagement"
 import { toast } from "sonner"
 
 // Main Admin Dashboard Component
@@ -94,7 +96,7 @@ export default function AdminDashboard() {
             )}
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/10">
+            <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:grid-cols-5 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/10">
               <TabsTrigger value="overview" className="flex items-center gap-2">
                 <Activity className="h-4 w-4" />
                 <span className="hidden sm:inline">Overview</span>
@@ -106,6 +108,10 @@ export default function AdminDashboard() {
               <TabsTrigger value="payments" className="flex items-center gap-2">
                 <CreditCard className="h-4 w-4" />
                 <span className="hidden sm:inline">Payments</span>
+              </TabsTrigger>
+              <TabsTrigger value="license" className="flex items-center gap-2">
+                <Key className="h-4 w-4" />
+                <span className="hidden sm:inline">License</span>
               </TabsTrigger>
               <TabsTrigger value="settings" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
@@ -124,6 +130,9 @@ export default function AdminDashboard() {
             </TabsContent>
             <TabsContent value="payments">
               <PaymentManagement />
+            </TabsContent>
+            <TabsContent value="license">
+              <LicenseManagement />
             </TabsContent>
             <TabsContent value="settings">
               <SystemSettings />

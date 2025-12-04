@@ -1,11 +1,13 @@
 const express = require("express");
 const { stkPush } = require("../config/mpesa");
 const prisma = require("../config/prismaClient");
+const { validateLicense } = require("../middleware/licenseMiddleware");
 
 const router = express.Router();
 
 // Initiate payment - aligns with Frontend apiClient.initiatePayment
-router.post("/payments/initiate", async (req, res) => {
+// Added license validation to enforce user limits
+router.post("/payments/initiate", validateLicense, async (req, res) => {
   try {
     const { phone, amount, macAddress, package: pkg, speed } = req.body || {};
 
