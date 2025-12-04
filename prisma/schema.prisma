@@ -46,6 +46,45 @@ model Payment {
   @@index([transactionId])
 }
 
+model ClientLicense {
+  id              Int      @id @default(autoincrement())
+  clientName      String
+  licenseKey      String   @unique
+  status          String   // "active", "expired", "suspended"
+  monthlyAmount   Int      @default(2000) // Monthly fee in KES
+  userLimit       Int      @default(300)  // Maximum users allowed
+  currentUserCount Int     @default(0)    // Current active users
+  issueDate       DateTime @default(now())
+  expiresAt       DateTime
+  autoRenew       Boolean  @default(false)
+  contactPhone    String?
+  contactEmail    String?
+  notes           String?  @db.Text
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  licensePayments LicensePayment[]
+
+  @@index([status])
+  @@index([expiresAt])
+}
+
+model LicensePayment {
+  id            Int      @id @default(autoincrement())
+  licenseId     Int
+  license       ClientLicense @relation(fields: [licenseId], references: [id])
+  amount        Int
+  transactionId String   @unique
+  mpesaRef      String?  @unique
+  status        String   // "pending", "completed", "failed"
+  paymentDate   DateTime @default(now())
+  periodStart   DateTime
+  periodEnd     DateTime
+  createdAt     DateTime @default(now())
+
+  @@index([licenseId])
+  @@index([transactionId])
+}
+
 model SupportRequest {
   id        Int      @id @default(autoincrement())
   phone     String
