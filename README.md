@@ -11,7 +11,7 @@ A WiFi billing system that allows users to purchase internet access via MPesa pa
 
 ✅ MAC Address Whitelisting – Secure WiFi access via MikroTik integration.
 
-✅ **Client Licensing System** – Monthly subscription model for system usage (2000 KES/month for up to 300 users).
+✅ **Client Licensing System** – Monthly subscription model for system usage (3000 KES/month for up to 300 users).
 
 
 **🛠️ TECH STACK**
@@ -106,7 +106,7 @@ This system uses a **dual licensing approach**:
 
 1. **Software License**: MIT License (open-source, free to use and modify)
 2. **Commercial Use License**: Clients who deploy this system commercially pay a monthly subscription fee:
-   - **2,000 KES per month** per installation
+   - **3,000 KES per month** per installation
    - Supports up to **300 concurrent users**
    - Includes updates and basic support
    - Renewable via M-Pesa
